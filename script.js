@@ -15,15 +15,33 @@ function atualizarCotacao(acao) {
             const labels = Object.keys(timeSeries);
             const cotacao = timeSeries[labels[0]]['4. close'];
 
-            // Atualiza a cotação na página
-            document.getElementById('cotacao-valor').textContent = `R$ ${parseFloat(cotacao).toFixed(2)}`;
+const mockData = {
+  "Time Series (5min)": {
+    "2024-12-11 10:00:00": { "4. close": 30.50 },
+    "2024-12-11 10:05:00": { "4. close": 30.80 },
+    "2024-12-11 10:10:00": { "4. close": 30.60 },
+    "2024-12-11 10:15:00": { "4. close": 30.75 }
+  }
+};
 
-            // Atualiza o gráfico com os dados da API
-            const graficoData = {
-                labels: labels,
-                data: labels.map(label => parseFloat(timeSeries[label]['4. close'])),
-            };
-            atualizarGrafico(graficoData);
+function atualizarCotacao(acao) {
+    // Usar os dados simulados diretamente
+    const timeSeries = mockData['Time Series (5min)'];
+    const labels = Object.keys(timeSeries);
+    const cotacao = timeSeries[labels[0]]['4. close'];
+
+    // Atualiza a cotação na página
+    document.getElementById('cotacao-valor').textContent = `R$ ${parseFloat(cotacao).toFixed(2)}`;
+
+    // Atualiza o gráfico com os dados simulados
+    const graficoData = {
+        labels: labels,
+        data: labels.map(label => parseFloat(timeSeries[label]['4. close'])),
+    };
+    atualizarGrafico(graficoData);
+}
+
+      
         })
         .catch(error => {
             console.error('Erro ao obter cotação:', error);
@@ -32,7 +50,7 @@ function atualizarCotacao(acao) {
 
 function atualizarGrafico(dadosGrafico) {
     const ctx = document.getElementById('grafico').getContext('2d');
-    const grafico = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'line',
         data: {
             labels: dadosGrafico.labels,
@@ -42,6 +60,23 @@ function atualizarGrafico(dadosGrafico) {
                 borderColor: 'rgb(75, 192, 192)',
                 fill: false
             }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Hora'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Preço (R$)'
+                    }
+                }
+            }
         }
     });
 }
