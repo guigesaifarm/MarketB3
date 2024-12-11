@@ -37,3 +37,26 @@ function atualizarGrafico(dadosGrafico) {
         }
     });
 }
+
+
+function atualizarCotacao(acao) {
+    const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${acao}&interval=5min&apikey=YOUR_API_KEY`;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const timeSeries = data['Time Series (5min)'];
+            const labels = Object.keys(timeSeries);
+            const cotacao = timeSeries[labels[0]]['4. close'];
+
+            // Atualiza a cotação na página
+            document.getElementById('cotacao-valor').textContent = `R$ ${parseFloat(cotacao).toFixed(2)}`;
+
+            // Atualiza o gráfico com os dados da API
+            const graficoData = {
+                labels: labels,
+                data: labels.map(label => parseFloat(timeSeries[label]['4. close'])),
+            };
+            atualizarGrafico(graficoData);
+        });
+}
