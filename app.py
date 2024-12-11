@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 # Função para buscar a cotação de uma ação
 def obter_cotacao(acao):
-    url = f"https://br.tradingview.com/symbols/BMFBOVESPA-acao/?utm_campaign=hotlists&utm_medium=widget&utm_source=www.b3.com.br"  # URL de exemplo, substitua pela API real
+    url = f"https://brapi.dev/api/quote/acao?token=qTHuTApotJasWqPqJydwmK"  # URL de exemplo, substitua pela API real
     response = requests.get(url)
     data = response.json()
     cotacao = data['cotacao']  # ajuste conforme a resposta da API
