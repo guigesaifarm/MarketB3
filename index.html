@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotação de Ações - B3</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cotação de Ações da B3</h1>
+        <form id="form-acao">
+            <label for="acao">Escolha uma ação:</label>
+            <select id="acao" name="acao">
+                <option value="PETR4">PETR4</option>
+                <option value="VALE3">VALE3</option>
+                <option value="ITUB4">ITUB4</option>
+                <!-- Adicione mais opções conforme necessário -->
+            </select>
+            <button type="submit">Buscar</button>
+        </form>
+        <div id="cotacao">
+            <h2>Última Cotação: <span id="cotacao-valor"></span></h2>
+            <div id="grafico">
+                <!-- Gráfico será gerado aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
