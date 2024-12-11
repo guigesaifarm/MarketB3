@@ -5,35 +5,34 @@ document.getElementById('form-acao').addEventListener('submit', function(event) 
 });
 
 function atualizarCotacao(acao) {
-    const apiKey = 'https://brapi.dev/api/quote/acao?token=qTHuTApotJasWqPqJydwmK';  // Substitua pela sua chave real
+    const apiKey = 'qTHuTApotJasWqPqJydwmK';  // Sua chave real
+    const url = `https://brapi.dev/api/quote/${acao}?token=${apiKey}`;
     
-    // Usar os dados simulados diretamente, caso não tenha API ou para testes
-    const mockData = {
-        "Time Series (5min)": {
-            "2024-12-11 10:00:00": { "4. close": 30.50 },
-            "2024-12-11 10:05:00": { "4. close": 30.80 },
-            "2024-12-11 10:10:00": { "4. close": 30.60 },
-            "2024-12-11 10:15:00": { "4. close": 30.75 }
-        }
-    };
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // Para verificar a estrutura dos dados retornados
 
-    // Se você não tem a chave da API, use os dados simulados para testes:
-    const timeSeries = mockData['Time Series (5min)'];
-    
-    const labels = Object.keys(timeSeries);
-    const cotacao = timeSeries[labels[0]]['4. close'];
+            // Aqui você ajusta a estrutura de dados, assumindo que a resposta seja parecida com a estrutura acima.
+            const timeSeries = data.data;  // Dados da resposta da API
+            const labels = timeSeries.map(entry => entry.date);  // Extrair as datas (ou horários)
+            const cotacao = timeSeries[0].price;  // A primeira cotação (exemplo, para exibir na página)
 
-    // Atualiza a cotação na página
-    document.getElementById('cotacao-valor').textContent = `R$ ${parseFloat(cotacao).toFixed(2)}`;
+            // Atualiza a cotação na página
+            document.getElementById('cotacao-valor').textContent = `R$ ${parseFloat(cotacao).toFixed(2)}`;
 
-    // Prepara os dados para o gráfico
-    const graficoData = {
-        labels: labels,
-        data: labels.map(label => parseFloat(timeSeries[label]['4. close']))
-    };
+            // Prepara os dados para o gráfico
+            const graficoData = {
+                labels: labels,
+                data: timeSeries.map(entry => entry.price)  // Preço de cada ação
+            };
 
-    // Atualiza o gráfico com os dados
-    atualizarGrafico(graficoData);
+            // Atualiza o gráfico com os dados da API
+            atualizarGrafico(graficoData);
+        })
+        .catch(error => {
+            console.error('Erro ao obter cotação:', error);
+        });
 }
 
 function atualizarGrafico(dadosGrafico) {
