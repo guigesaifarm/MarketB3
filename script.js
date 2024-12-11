@@ -5,7 +5,7 @@ document.getElementById('form-acao').addEventListener('submit', function(event) 
 });
 
 function atualizarCotacao(acao) {
-    const apiKey = 'https://brapi.dev/api/quote/PETR4?token=qTHuTApotJasWqPqJydwmK';  // Substitua pela sua chave real
+    const apiKey = 'https://brapi.dev/api/quote/acao?token=qTHuTApotJasWqPqJydwmK';  // Substitua pela sua chave real
     const url = `https://cors-anywhere.herokuapp.com/https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${acao}&interval=5min&apikey=${apiKey}`;
     
     // Usar os dados simulados diretamente, caso não tenha API ou para testes
